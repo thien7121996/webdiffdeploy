@@ -1,11 +1,15 @@
 import { FC } from 'react';
 import { TabButton } from './TabButton';
 
-type Props = { activeTabId: number; onClickTab: (tabId: number) => void };
+type Props = {
+  activeTabId: number;
+  onClickTab: (tabId: number) => void;
+  countUrlList?: number;
+};
 
 const tabs = [
-  { id: 0, name: 'Page snapshots' },
-  { id: 1, name: 'Visuals History' },
+  { id: 0, name: 'All pages' },
+  { id: 1, name: 'Test History' },
 ];
 
 export const tabObject = {
@@ -13,7 +17,11 @@ export const tabObject = {
   commitsTabId: 1,
 };
 
-export const TabButtons: FC<Props> = ({ activeTabId, onClickTab }) => {
+export const TabButtons: FC<Props> = ({
+  activeTabId,
+  onClickTab,
+  countUrlList,
+}) => {
   return (
     <ul className='mb-10 flex rounded-lg text-center text-sm font-medium text-gray-500 shadow dark:divide-gray-700 dark:text-gray-400 sm:flex'>
       {tabs.map((tab, index) => (
@@ -24,6 +32,7 @@ export const TabButtons: FC<Props> = ({ activeTabId, onClickTab }) => {
           isActive={activeTabId === tab.id}
           isLast={index === tabs.length - 1}
           onClickTab={() => onClickTab(tab.id)}
+          countUrlList={countUrlList}
         />
       ))}
     </ul>

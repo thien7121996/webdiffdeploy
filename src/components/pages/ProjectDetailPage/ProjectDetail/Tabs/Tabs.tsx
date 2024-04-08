@@ -5,9 +5,10 @@ import { TabContent } from './TabContent';
 
 type Props = {
   isTabVisualCheck: boolean;
+  countUrlList?: number;
 };
 
-export const Tabs: FC<Props> = ({ isTabVisualCheck }) => {
+export const Tabs: FC<Props> = ({ isTabVisualCheck, countUrlList }) => {
   const [tabSelectedId, setTabSelectedId] = useState(
     tabObject.pageSnapshotsTabId
   );
@@ -24,7 +25,11 @@ export const Tabs: FC<Props> = ({ isTabVisualCheck }) => {
 
   return (
     <div>
-      <TabButtons activeTabId={tabSelectedId} onClickTab={handleClickTab} />
+      <TabButtons
+        activeTabId={tabSelectedId}
+        onClickTab={handleClickTab}
+        countUrlList={countUrlList}
+      />
       <TabContent tabSelectedId={tabSelectedId} />
     </div>
   );

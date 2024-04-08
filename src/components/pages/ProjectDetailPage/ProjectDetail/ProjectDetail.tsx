@@ -1,6 +1,5 @@
 import { useParams } from 'next/navigation';
 import { FC, useEffect, useState } from 'react';
-import { BarStats } from './BarStats';
 import { Tabs } from './Tabs';
 import { useCommits } from './Tabs/TabContent/CommitsTabContent/commits.hooks';
 import { useProjectDetailSocket } from './useProjectDetailSocket.hooks';
@@ -38,7 +37,7 @@ export const ProjectDetail: FC<Props> = ({
       <div className='ga mb-5 grid grid-cols-3 gap-4'>
         <div className='col-span-2'>
           <h3 className='text-3xl font-medium'>
-            Project name: {infoProjectDetailName}
+            Project : {infoProjectDetailName}
           </h3>
         </div>
 
@@ -47,18 +46,12 @@ export const ProjectDetail: FC<Props> = ({
             onClick={setNewPageModalOpen}
             className='ml-auto rounded-full bg-emerald-400 px-4 py-2 text-base font-bold text-white hover:bg-blue-700'
           >
-            Add page snapshot
+            Add page
           </button>
         </div>
       </div>
-      <BarStats
-        countPages={pageSnapCount}
-        urlList={urlList}
-        infoProjectDetailId={infoProjectDetailId}
-        isProcessing={isProcessing}
-        setIsTabVisualCheck={setIsTabVisualCheck}
-      />
-      <Tabs isTabVisualCheck={isTabVisualCheck} />
+
+      <Tabs isTabVisualCheck={isTabVisualCheck} countUrlList={urlList.length} />
     </div>
   );
 };

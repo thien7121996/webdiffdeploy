@@ -1,5 +1,4 @@
 import { Layout } from '@/components/layout';
-import Breadcrumb from '@/components/pages/Common/Breadcrumb';
 import { ProjectDetailPage } from '@/components/pages/ProjectDetailPage';
 import { NextPageWithLayout } from '@/pages/_app';
 import { useParams } from 'next/navigation';
@@ -12,11 +11,7 @@ const ProjectDetail: NextPageWithLayout = () => {
 
   return (
     <>
-      <Breadcrumb
-        pageName='Page Snapshot'
-        description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. In varius eros eget sapien consectetur ultrices. Ut quis dapibus libero.'
-      />
-      <section className='pb-[120px] pt-[20px]'>
+      <section className='pb-[120px] pt-[150px]'>
         <div className='container'>
           {projectId ? (
             <ProjectDetailPage projectId={projectId} />

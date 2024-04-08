@@ -45,12 +45,11 @@ export const TabBody: FC = () => {
             scope='row'
             className='max-w-80 truncate whitespace-nowrap text-wrap break-normal px-6 py-4 font-medium text-gray-900 dark:text-white'
           >
-            URL PAGE #{index + 1}: {pageSnap.url}
+            #{index + 1}: {pageSnap.url}
           </td>
           <td className='px-6 py-4'>
             {handlePageSnapStatus(pageSnap.screenshotStatus)}
           </td>
-          <td className='px-6 py-4'>{pageSnap.id}</td>
           <td className='flex gap-2 px-6 py-4'>
             <div className='relative right-0'>
               <div

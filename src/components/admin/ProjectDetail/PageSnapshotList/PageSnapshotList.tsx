@@ -66,7 +66,7 @@ export const PageSnapshotList: FC<Props> = ({ pageSnapshots }) => {
               </div>
             </th>
             <th scope='col' className='px-6 py-3'>
-              Snapshot name
+              URL
             </th>
             <th scope='col' className='px-6 py-3'>
               Status
@@ -101,7 +101,7 @@ export const PageSnapshotList: FC<Props> = ({ pageSnapshots }) => {
                 scope='row'
                 className='whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white'
               >
-                URL PAGE #{index + 1}: {pageSnapshot.url}
+                #{index + 1}: {pageSnapshot.url}
               </th>
               <td className='px-6 py-4'>
                 {pageSnapshot.path ? 'ScreenShot' : 'Not ScreenShot'}
