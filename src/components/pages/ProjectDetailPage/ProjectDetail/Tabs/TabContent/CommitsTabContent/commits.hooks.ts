@@ -1,6 +1,9 @@
 import { getCommits } from '@/services/commits';
 import { useQuery } from '@tanstack/react-query';
+import { atom } from 'jotai';
 import { useCallback } from 'react';
+
+export const isVisualSnappingAtom = atom(false);
 
 export const useCommits = (projectId?: string) => {
   const get = useCallback(async (projectId?: string) => {
@@ -9,7 +12,7 @@ export const useCommits = (projectId?: string) => {
     }
 
     try {
-      const response = await getCommits({ projectId: projectId });
+      const response = await getCommits({ projectId });
       return response.data;
     } catch (error) {
       return;

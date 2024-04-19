@@ -16,6 +16,9 @@ export type CommitType = {
   screenshotingUrl: string | null;
   fail: number;
   pageSnapshots: CommitPageSnapshotType[];
+  status?: string;
+  finishAt?: string;
+  createdAt?: string;
 };
 
 export type CommitPageSnapshotType = {
@@ -25,4 +28,7 @@ export type CommitPageSnapshotType = {
   url: string;
   path: string;
   createdAt: string;
+  currentBasePath: string;
+  diffImage: string;
+  diffPixel: number;
 };

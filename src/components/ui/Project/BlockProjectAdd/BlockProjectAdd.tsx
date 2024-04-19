@@ -158,7 +158,7 @@ export const BlockProjectAdd: FC<Props> = ({ setReloadData }) => {
         open={activeModal}
         onClose={setCloseModal}
         $isModalNotAlignCenter
-        isAllowClickOutsideToClose={true}
+        $isAllowClickOutsideToClose={true}
         widthModal='600px'
       >
         <div

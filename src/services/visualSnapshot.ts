@@ -1,10 +1,8 @@
+import {
+  ApproveCommitPageSnapRequest,
+  ApproveCommitPageSnapResponse,
+} from '@/models/ApproveCommitPageSnap';
 import { httpClient } from '@/utils/httpClient';
-
-type ChangeVisualReferenceRequest = {
-  projectId: string;
-  pageSnapShotId: string;
-  pageVisualSnapShotId: string;
-};
 
 type DeleteVisualSnapshotRequest = {
   projectId: string;
@@ -14,14 +12,10 @@ type DeleteVisualSnapshotRequest = {
 
 const baseRoute = '/page-visual-snapshot';
 
-export const changeVisualReference = async (
-  data: ChangeVisualReferenceRequest
-) => {
-  return await httpClient.post(
-    `${baseRoute}/update-reference`,
-    {},
-    { params: { ...data } }
-  );
+export const approveCommitPageSnap = async (
+  request: ApproveCommitPageSnapRequest
+): Promise<ApproveCommitPageSnapResponse> => {
+  return await httpClient.post(`${baseRoute}/update-reference`, request);
 };
 
 export const deleteVisualSnapshot = async (

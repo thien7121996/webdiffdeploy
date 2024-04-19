@@ -1,64 +1,44 @@
 import { useParams } from 'next/navigation';
-import { FC, useEffect, useState } from 'react';
-import { BarStats } from './BarStats';
+import { FC } from 'react';
 import { Tabs } from './Tabs';
+import { RunVisual } from './Tabs/TabContent/CommitsTabContent/RunVisual';
 import { useCommits } from './Tabs/TabContent/CommitsTabContent/commits.hooks';
 import { useProjectDetailSocket } from './useProjectDetailSocket.hooks';
 
 type Props = {
   setNewPageModalOpen: () => void;
   infoProjectDetailName?: string;
-  infoProjectDetailId?: string;
-  pageSnapCount: number;
-  urlList: string[];
 };
 
 export const ProjectDetail: FC<Props> = ({
   infoProjectDetailName,
   setNewPageModalOpen,
-  infoProjectDetailId,
-  pageSnapCount,
-  urlList,
 }) => {
   useProjectDetailSocket();
-  const { projectId } = useParams();
+  const params = useParams();
+  const projectId = params?.projectId as string;
   const { commits } = useCommits(projectId as string);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [isTabVisualCheck, setIsTabVisualCheck] = useState<boolean>(false);
-
-  useEffect(() => {
-    const check = commits?.some((commit) => commit.screenshotingUrl !== null);
-    if (check) {
-      setIsProcessing(true);
-    }
-  }, [commits]);
 
   return (
     <div>
       <div className='ga mb-5 grid grid-cols-3 gap-4'>
         <div className='col-span-2'>
           <h3 className='text-3xl font-medium'>
-            Project name: {infoProjectDetailName}
+            Project : {infoProjectDetailName}
           </h3>
         </div>
 
-        <div className='text-right'>
+        <div className='flex justify-end text-right'>
+          <RunVisual />
           <button
             onClick={setNewPageModalOpen}
-            className='ml-auto rounded-full bg-emerald-400 px-4 py-2 text-base font-bold text-white hover:bg-blue-700'
+            className='ml-2 mr-2 rounded-full bg-emerald-400 px-4 py-2 text-base font-bold text-white hover:bg-blue-700'
           >
-            Add page snapshot
+            Add page
           </button>
         </div>
       </div>
-      <BarStats
-        countPages={pageSnapCount}
-        urlList={urlList}
-        infoProjectDetailId={infoProjectDetailId}
-        isProcessing={isProcessing}
-        setIsTabVisualCheck={setIsTabVisualCheck}
-      />
-      <Tabs isTabVisualCheck={isTabVisualCheck} />
+      <Tabs />
     </div>
   );
 };

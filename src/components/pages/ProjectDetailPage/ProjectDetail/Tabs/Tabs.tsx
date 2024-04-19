@@ -1,26 +1,19 @@
-import { FC, useEffect, useState } from 'react';
+import { atom, useAtom } from 'jotai';
+import { FC } from 'react';
 import { TabButtons } from './TabButtons';
 import { tabObject } from './TabButtons/TabButtons';
 import { TabContent } from './TabContent';
 
-type Props = {
-  isTabVisualCheck: boolean;
-};
+type Props = {};
 
-export const Tabs: FC<Props> = ({ isTabVisualCheck }) => {
-  const [tabSelectedId, setTabSelectedId] = useState(
-    tabObject.pageSnapshotsTabId
-  );
+export const activeTab = atom(tabObject.pageSnapshotsTabId);
+
+export const Tabs: FC<Props> = ({}) => {
+  const [tabSelectedId, setTabSelectedId] = useAtom(activeTab);
 
   const handleClickTab = (id: number) => {
     setTabSelectedId(id);
   };
-
-  useEffect(() => {
-    if (isTabVisualCheck) {
-      setTabSelectedId(tabObject.commitsTabId);
-    }
-  }, [isTabVisualCheck]);
 
   return (
     <div>

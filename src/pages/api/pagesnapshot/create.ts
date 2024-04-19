@@ -119,7 +119,7 @@ const handleAddNewPageSnapshot = async (
     createdAt: getDateCurrent(),
     url: baseUrl.urlBase,
     isPagePrivate: baseUrl.isPagePrivate,
-    screenshotStatus: SCREENSHOT_STATUS_TYPE.doing,
+    screenshotStatus: SCREENSHOT_STATUS_TYPE.notScreenshot,
   };
 
   try {

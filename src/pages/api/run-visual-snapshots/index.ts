@@ -6,7 +6,7 @@ type Data = {
   message: string;
 };
 
-export default async function handler(
+export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
@@ -24,7 +24,7 @@ export default async function handler(
   }
 
   try {
-    await httpClient.post(`${config.queueServer.origin}/run-visual-snapshots`, {
+    httpClient.post(`${config.queueServer.origin}/run-visual-snapshots`, {
       userId,
       projectId,
       visualCheckId,

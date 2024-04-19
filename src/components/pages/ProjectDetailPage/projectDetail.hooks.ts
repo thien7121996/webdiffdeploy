@@ -1,26 +1,23 @@
 import { ProjectType } from '@/models/GetProjectType';
-import { PageSnapShotType } from '@/models/pageSnapShot.model';
 import { getDetailProject } from '@/services/project';
 import { useQuery } from '@tanstack/react-query';
-import { useCallback, useState } from 'react';
+import { atom, useSetAtom } from 'jotai';
+import { useCallback } from 'react';
+
+export const pageSnapCountAtom = atom(0);
 
 export const useProjectDetail = (projectId: string) => {
-  const [pageSnapshotUrls, setPageSnapshotUrls] = useState<string[]>([]);
+  const setPageSnapCount = useSetAtom(pageSnapCountAtom);
 
   const get = useCallback(async (): Promise<ProjectType | undefined> => {
     try {
       const response = await getDetailProject(projectId);
-      setPageSnapshotUrls(
-        response.data?.pageSnapShot?.map(
-          (page: PageSnapShotType) => page.url
-        ) ?? []
-      );
-
+      setPageSnapCount(response.data.pageSnapShot.length);
       return response.data;
     } catch (error) {
       return;
     }
-  }, [projectId]);
+  }, [projectId, setPageSnapCount]);
 
   const {
     isError,
@@ -38,7 +35,6 @@ export const useProjectDetail = (projectId: string) => {
   return {
     isError,
     isLoading,
-    pageSnapshotUrls,
     project: project,
   };
 };

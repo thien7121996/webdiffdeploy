@@ -1,6 +1,5 @@
 import { useNotification } from '@/hooks/useNotification';
 import { PageSnapShotType } from '@/models/pageSnapShot.model';
-import { changeVisualReference } from '@/services/visualSnapshot';
 import { FC } from 'react';
 
 type Props = {
@@ -27,11 +26,6 @@ export const BarStatus: FC<Props> = ({
     pageVisualSnapShotId: string
   ) => {
     try {
-      await changeVisualReference({
-        projectId,
-        pageSnapShotId,
-        pageVisualSnapShotId,
-      });
       setNotification({
         type: 'success',
         message: 'Change reference successfully',

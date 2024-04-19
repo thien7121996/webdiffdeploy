@@ -9,6 +9,7 @@ export const SCREENSHOT_STATUS_TYPE = {
   doing: 'doing',
   done: 'done',
   fail: 'fail',
+  notScreenshot: 'notScreenshot',
 } as const;
 
 export type SCREENSHOT_STATUS_TYPE = keyof typeof SCREENSHOT_STATUS_TYPE;

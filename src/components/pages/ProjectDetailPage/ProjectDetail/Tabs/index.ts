@@ -1,1 +1,1 @@
-export { Tabs } from './Tabs';
+export { Tabs, activeTab } from './Tabs';

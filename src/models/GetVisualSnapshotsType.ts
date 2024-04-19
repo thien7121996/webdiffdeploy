@@ -1,7 +1,7 @@
 import { PageVisualSnapShot } from './pageVisualSnapshot.model';
 
 export type GetVisualSnapshotsRequest = {
-  pageSnapshotId: string;
+  userId: string;
   projectId: string;
 };
 

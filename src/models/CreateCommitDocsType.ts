@@ -1,6 +1,5 @@
 export type CreateCommitDocsRequest = {
   projectId: string;
-  urlList: string[];
 };
 
 export type CreateCommitDocsResponse = {
@@ -16,4 +15,5 @@ export type CheckTaskResponse = {
 };
 export type CheckTaskRequest = {
   visualCheckId: string;
+  projectId: string;
 };

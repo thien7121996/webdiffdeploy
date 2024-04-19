@@ -1,3 +1,4 @@
+'use client';
 import { pageScreenshot } from '@/services/pageScreenshot';
 import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';

@@ -31,7 +31,7 @@ export default async function handler(
     getDocs(pageSnapshotsRef),
   ]);
 
-  const pageSnapshots = pageSnapshotSnap.docs.map((doc) => {
+  const pageSnapShot = pageSnapshotSnap.docs.map((doc) => {
     const data = doc.data();
     return {
       id: doc.id,
@@ -59,11 +59,12 @@ export default async function handler(
     userNameBasicAuth: projectData?.userNameBasicAuth,
   };
 
-  const responseData = { ...project, pageSnapshots };
+  const responseData = { ...project, pageSnapShot };
 
-  res
-    .status(200)
-    .json({ message: 'Get project list successfully', data: responseData });
+  res.status(200).json({
+    message: 'Get project list successfully',
+    data: responseData,
+  } as GetProjectResponseType);
 }
 
 // const handleGetPageVisuals = async (

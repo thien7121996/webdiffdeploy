@@ -2,7 +2,7 @@ import { PageSnapShotType } from './pageSnapShot.model';
 
 export type GetProjectResponseType = {
   message: string;
-  data?: any;
+  data: ProjectType;
 };
 
 export type GetProjectRequestType = {
@@ -23,4 +23,5 @@ export type ProjectType = {
   passwordBasicAuth?: string;
   userNameBasicAuth?: string;
   pageSnapShot: PageSnapShotType[];
+  statusRun?: number | null;
 };

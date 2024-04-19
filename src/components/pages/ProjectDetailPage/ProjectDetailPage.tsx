@@ -15,8 +15,7 @@ export const ProjectDetailPage: FC<Props> = ({ projectId }) => {
     setTrue: setNewPageModalOpen,
   } = useBooleanState(false);
 
-  const { isError, isLoading, project, pageSnapshotUrls } =
-    useProjectDetail(projectId);
+  const { isError, isLoading, project } = useProjectDetail(projectId);
 
   return (
     <>
@@ -28,11 +27,8 @@ export const ProjectDetailPage: FC<Props> = ({ projectId }) => {
       />
       {!!project && (
         <ProjectDetail
-          infoProjectDetailId={project.id}
           infoProjectDetailName={project.name}
-          pageSnapCount={project.pageSnapShot?.length ?? 0}
           setNewPageModalOpen={setNewPageModalOpen}
-          urlList={pageSnapshotUrls}
         />
       )}
     </>

@@ -1,0 +1,1 @@
+export { CommitsTable } from './CommitsTable';

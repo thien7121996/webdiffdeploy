@@ -1,3 +1,4 @@
+'use client';
 import { ShowNotification } from '@/models/common';
 import React from 'react';
 

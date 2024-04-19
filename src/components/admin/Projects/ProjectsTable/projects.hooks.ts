@@ -1,3 +1,4 @@
+'use client';
 import { useNotification } from '@/hooks/useNotification';
 import { getProjects } from '@/services/admin/projects';
 import { useQuery } from '@tanstack/react-query';

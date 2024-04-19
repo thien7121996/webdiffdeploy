@@ -1,11 +1,14 @@
 import { FC } from 'react';
 import { TabButton } from './TabButton';
 
-type Props = { activeTabId: number; onClickTab: (tabId: number) => void };
+type Props = {
+  activeTabId: number;
+  onClickTab: (tabId: number) => void;
+};
 
 const tabs = [
-  { id: 0, name: 'Page snapshots' },
-  { id: 1, name: 'Visuals History' },
+  { id: 0, name: 'All pages' },
+  { id: 1, name: 'Test History' },
 ];
 
 export const tabObject = {
@@ -20,7 +23,7 @@ export const TabButtons: FC<Props> = ({ activeTabId, onClickTab }) => {
         <TabButton
           key={tab.id}
           tabName={tab.name}
-          isFirst={index === 0}
+          isPageSnapTab={index === 0}
           isActive={activeTabId === tab.id}
           isLast={index === tabs.length - 1}
           onClickTab={() => onClickTab(tab.id)}

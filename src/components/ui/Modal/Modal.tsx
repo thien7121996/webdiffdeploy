@@ -23,7 +23,7 @@ type Props = {
   children: React.ReactNode;
   title?: string;
   $isModalNotAlignCenter?: boolean;
-  isAllowClickOutsideToClose?: boolean;
+  $isAllowClickOutsideToClose?: boolean;
   subTitle?: string;
   widthModal?: string;
 };
@@ -39,7 +39,7 @@ export const Modal: FC<Props> = memo(
     children,
     title,
     $isModalNotAlignCenter,
-    isAllowClickOutsideToClose = true,
+    $isAllowClickOutsideToClose = true,
     subTitle,
     widthModal,
   }) => {
@@ -47,7 +47,7 @@ export const Modal: FC<Props> = memo(
 
     const [headerHeight, setHeaderHeight] = useState<number>(0);
 
-    useClickOutside(ref, () => isAllowClickOutsideToClose && onClose());
+    useClickOutside(ref, () => $isAllowClickOutsideToClose && onClose());
 
     const handleKeyDown = useCallback(
       (event: KeyboardEvent) => {

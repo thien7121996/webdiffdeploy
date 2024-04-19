@@ -1,6 +1,13 @@
 import db from '@/configs/firebase';
 import { GetVisualSnapshotsResponse } from '@/models/GetVisualSnapshotsType';
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -12,28 +19,28 @@ export default async function handler(
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  const { projectId, pageSnapshotId } = req.query;
-  const { uuid } = req.cookies;
+  const { projectId, userId } = req.query;
 
-  if (!uuid) {
+  if (!userId) {
     res.status(401).end('Please login');
     return;
   }
 
-  if (typeof projectId !== 'string' || typeof pageSnapshotId !== 'string') {
+  if (typeof projectId !== 'string' || typeof userId !== 'string') {
     res.status(400).end('Missing or empty info');
     return;
   }
 
   try {
-    const isBelongTo = await handleIsProjectBelongToUser(projectId, uuid);
+    const isBelongTo = await handleIsProjectBelongToUser(projectId, userId);
 
     if (!isBelongTo) {
       res.status(400).end(`You don't have permission`);
       return;
     }
 
-    const visualSnapshots = await handleGetVisuals(projectId, pageSnapshotId);
+    const visualSnapshots = await handleGetVisuals(projectId);
+
     res.status(200).json({
       message: 'Get page visual snapshot successfully',
       data: visualSnapshots,
@@ -56,24 +63,26 @@ const handleIsProjectBelongToUser = async (
   }
 };
 
-const handleGetVisuals = async (projectId: string, pageSnapshotId: string) => {
+const handleGetVisuals = async (projectId: string) => {
   try {
-    const visualSnapshotRef = collection(
-      db,
-      `/projects/${projectId}/pageSnapShot/${pageSnapshotId}/pageVisualSnapShot`
+    const visualSnapshotsRef = collection(db, `/visualchecks`);
+
+    const condition = query(
+      visualSnapshotsRef,
+      where('projectId', '==', projectId)
     );
 
-    const visualSnapshotSnap = await getDocs(visualSnapshotRef);
+    const visualSnapshotsSnap = await getDocs(condition);
 
-    const visualSnapshotData = visualSnapshotSnap.docs.map((doc) => {
+    const visualSnapshotData = visualSnapshotsSnap.docs.map((doc) => {
       const data = doc.data();
+
       return {
         id: doc.id,
         path: data.path,
         status: data.status,
         createAt: data.createAt,
         updateAt: data.updateAt,
-        reference: data.reference,
       };
     });
 
