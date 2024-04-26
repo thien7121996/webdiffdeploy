@@ -74,7 +74,7 @@ const handleGetCommits = async (userId: string, projectId: string) => {
         projectId: data.projectId,
         screenshotingUrl: data.screenshotingUrl,
         createdAt: data.createdAt,
-        finishAt: data.finishAt,
+        finished: data.finishAt,
         pageSnapshots,
       });
     }

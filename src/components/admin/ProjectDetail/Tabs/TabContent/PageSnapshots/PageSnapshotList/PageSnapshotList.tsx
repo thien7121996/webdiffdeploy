@@ -4,15 +4,10 @@ import { SnapshotPage } from './SnapshotPage';
 
 type Props = {
   userId: string;
-  projectId: string;
   pageSnapshots: Omit<PageSnapShotType, 'pageVisualSnapShot'>[];
 };
 
-export const PageSnapshotList: FC<Props> = ({
-  pageSnapshots,
-  projectId,
-  userId,
-}) => {
+export const PageSnapshotList: FC<Props> = ({ pageSnapshots, userId }) => {
   return (
     <div className='relative overflow-hidden shadow-md sm:rounded-lg'>
       <div className='w-full table-auto text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right'>
@@ -32,14 +27,14 @@ export const PageSnapshotList: FC<Props> = ({
             </div>
             <div className='w-6/12 px-6 py-3'>URL</div>
             <div className='w-2/12 px-6 py-3'>Status</div>
-            <div className='w-2/12 px-6 py-3'>ID</div>
+            <div className='w-3/12 px-6 py-3'>ID</div>
+            <div className='flex w-1/12 justify-end px-6 py-3'>Action</div>
           </div>
         </div>
         <div>
           {pageSnapshots.map((pageSnapshot, index) => (
             <SnapshotPage
               userId={userId}
-              projectId={projectId}
               key={pageSnapshot.id}
               orderNumber={index + 1}
               pageSnapshotId={pageSnapshot.id}

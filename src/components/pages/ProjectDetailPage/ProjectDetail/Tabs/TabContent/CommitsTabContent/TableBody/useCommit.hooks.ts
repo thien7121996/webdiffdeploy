@@ -1,6 +1,10 @@
 import { useRevalidate } from '@/hooks/useRevalidate';
 import { deleteCommit } from '@/services/commit';
-import { cancelVisualRunning } from '@/services/runVisualSnapshot';
+import {
+  cancelVisualRunning,
+  checkVisualRunning,
+} from '@/services/runVisualSnapshot';
+import { Cookie, getCookie } from '@/utils/cookie';
 import { useMutation } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useCallback, useState } from 'react';
@@ -12,12 +16,32 @@ export const useCommit = () => {
   const revalidate = useRevalidate();
   const projectId = params?.projectId as string;
 
-  const cancelJobVisual = useCallback(
+  const cancelJobVisual = useCallback(async (visualCheckId: string) => {
+    try {
+      const check = await cancelVisualRunning({ visualCheckId });
+      if (check.data) {
+        setIsRunning(false);
+      } else {
+        setIsRunning(true);
+        return check.data;
+      }
+    } catch (error) {
+      setIsRunning(false);
+    }
+  }, []);
+
+  const checkJobVisualRunning = useCallback(
     async (visualCheckId: string) => {
+      const uuid = getCookie(Cookie.UUID);
+      if (!uuid) {
+        return;
+      }
+
       try {
-        const check = await cancelVisualRunning({ visualCheckId, projectId });
-        if (check.data) {
+        const check = await checkVisualRunning({ visualCheckId });
+        if (!check.data) {
           setIsRunning(false);
+          cancelJobVisual(visualCheckId);
         } else {
           setIsRunning(true);
           return check.data;
@@ -26,7 +50,7 @@ export const useCommit = () => {
         setIsRunning(false);
       }
     },
-    [projectId]
+    [cancelJobVisual]
   );
 
   const deletePageSnapCommit = useCallback(
@@ -52,8 +76,8 @@ export const useCommit = () => {
   return {
     handleDeleteCommit,
     isPending,
+    checkJobVisualRunning,
     isRunning,
-    setIsRunning,
     cancelJobVisual,
   };
 };

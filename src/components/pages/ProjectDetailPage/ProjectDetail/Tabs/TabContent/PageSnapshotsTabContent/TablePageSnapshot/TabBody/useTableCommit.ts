@@ -51,11 +51,15 @@ export const useTableCommit = () => {
     [handleError, projectId]
   );
 
-  const { mutate, isPending } = useMutation({
+  const { mutate: deletePageSnap, isPending } = useMutation({
     mutationFn: handleDeletePageSnap,
     onSuccess: handleSuccess,
     onError: handleError,
   });
 
-  return { pageSnapShots: projectDetail.pageSnapShot, mutate, isPending };
+  return {
+    pageSnapShots: projectDetail.pageSnapShot,
+    deletePageSnap,
+    isPending,
+  };
 };

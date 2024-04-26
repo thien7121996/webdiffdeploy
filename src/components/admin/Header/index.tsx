@@ -105,7 +105,7 @@ const Header = (props: {
           </form>
         </div>
 
-        <div className='2xsm:gap-7 flex items-center gap-3'>
+        <div className='2xsm:gap-7 ml-auto flex items-center gap-3'>
           <ul className='2xsm:gap-4 flex items-center gap-2'>
             {/* <!-- Dark Mode Toggler --> */}
             <DarkModeSwitcher />

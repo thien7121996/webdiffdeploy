@@ -22,7 +22,6 @@ export const useAdminProjects = () => {
     refetchOnWindowFocus: false,
     queryFn: handleGetProjects,
     queryKey: ['projects'],
-    staleTime: 10000,
   });
 
   return { isLoading, projects };

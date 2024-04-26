@@ -3,6 +3,7 @@ import { useCommit } from '@/components/pages/ProjectDetailPage/ProjectDetail/Ta
 import { useBooleanState } from '@/hooks/useBooleanState';
 import { ApproveCommitPageSnapRequest } from '@/models/ApproveCommitPageSnap';
 import { CommitType } from '@/models/GetCommitsType';
+import { DisplayImageDiffType } from '@/models/pageSnapShot.model';
 import { countTimeRun } from '@/utils/countTimeRun';
 import dayjs from 'dayjs';
 import { FC, memo, useEffect, useState } from 'react';
@@ -13,10 +14,19 @@ type Props = {
   commit: CommitType;
   isLoading: boolean;
   onApprove: (payload: Omit<ApproveCommitPageSnapRequest, 'projectId'>) => void;
+  toggleActiveModal?: () => void;
+  setImageView?: React.Dispatch<React.SetStateAction<DisplayImageDiffType>>;
 };
 
 export const Commit: FC<Props> = memo(
-  ({ commit, isAdmin, isLoading, onApprove }) => {
+  ({
+    commit,
+    isAdmin,
+    isLoading,
+    onApprove,
+    toggleActiveModal,
+    setImageView,
+  }) => {
     const { boolean: isOpen, toggle } = useBooleanState(false);
     const pageSnapshots = commit.pageSnapshots;
 
@@ -24,30 +34,21 @@ export const Commit: FC<Props> = memo(
     const [elapsedTime, setElapsedTime] = useState(0);
     const [isProcessing, setIsProcessing] = useState(false);
 
-    const { handleDeleteCommit, cancelJobVisual, isRunning, setIsRunning } =
-      useCommit();
+    const { handleDeleteCommit, cancelJobVisual } = useCommit();
 
     useEffect(() => {
       if (commit?.createdAt) {
         setStartTime(new Date(commit.createdAt));
       }
     }, [commit?.createdAt]);
-
-    useEffect(() => {
-      if (commit.screenshotingUrl) {
-        setIsRunning(true);
-      }
-    }, [commit, commit.screenshotingUrl, setIsRunning]);
     const handleCancelJobVisual = async (visualCheckId: string) => {
       try {
-        setIsRunning(false);
         await cancelJobVisual(visualCheckId);
       } catch (error) {
         // do nothing
       }
     };
 
-    // console.log(startTime);
     useEffect(() => {
       if (!startTime || !commit.screenshotingUrl) {
         return;
@@ -106,7 +107,7 @@ export const Commit: FC<Props> = memo(
               Fail : {commit.fail}
             </p>
             <p className='flex items-center justify-start gap-5 text-left align-middle text-sm font-bold'>
-              {commit.screenshotingUrl && isRunning ? (
+              {commit.screenshotingUrl && (
                 <>
                   <span style={{ color: 'red' }}>
                     <span
@@ -122,25 +123,6 @@ export const Commit: FC<Props> = memo(
                     Runing : {countTimeRun(elapsedTime)}
                   </span>
                   <Loader height='6' width='6' />
-                </>
-              ) : (
-                <>
-                  <span style={{ color: 'red' }}>
-                    <span
-                      style={{
-                        width: '10px',
-                        height: '10px',
-                        background: '#baba0f',
-                        display: 'inline-block',
-                        borderRadius: '50%',
-                        marginRight: '5px',
-                      }}
-                    ></span>
-                    Finished :{' '}
-                    {commit?.finishAt
-                      ? dayjs(commit?.finishAt).format('DD/MM/YYYY HH:mm:ss')
-                      : dayjs(new Date()).format('DD/MM/YYYY HH:mm:ss')}
-                  </span>
                 </>
               )}
             </p>
@@ -164,7 +146,7 @@ export const Commit: FC<Props> = memo(
             </button>
             {!commit.screenshotingUrl && (
               <button
-                className='align-center  ml-5 flex h-10 w-10 justify-center rounded-full  bg-blue-400 px-2 py-2 text-small font-bold text-white hover:bg-blue-700'
+                className='ml-5 rounded-full  bg-blue-400 px-2 py-2 text-small font-bold text-white hover:bg-blue-700'
                 onClick={() => {
                   handleDeleteCommit(commit.id);
                   setIsProcessing(true);
@@ -210,6 +192,8 @@ export const Commit: FC<Props> = memo(
                     onApprove={onApprove}
                     commitPageSnapshot={pageSnapshot}
                     urlShorting={commit.screenshotingUrl}
+                    toggleActiveModal={toggleActiveModal}
+                    setImageView={setImageView}
                   />
                 ))}
               </div>

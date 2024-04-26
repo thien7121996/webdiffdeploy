@@ -15,5 +15,4 @@ export type CheckTaskResponse = {
 };
 export type CheckTaskRequest = {
   visualCheckId: string;
-  projectId: string;
 };

@@ -14,13 +14,13 @@ export const TabBody: FC = () => {
   const params = useParams();
   const projectId = params?.projectId as string;
 
-  const { pageSnapShots, isPending, mutate } = useTableCommit();
+  const { pageSnapShots, isPending, deletePageSnap } = useTableCommit();
 
   const handleDeletePageSnapShot = useCallback(
     (pageSnapShotId?: string) => {
-      mutate(pageSnapShotId);
+      deletePageSnap(pageSnapShotId);
     },
-    [mutate]
+    [deletePageSnap]
   );
 
   const handlePageSnapStatus = useCallback(

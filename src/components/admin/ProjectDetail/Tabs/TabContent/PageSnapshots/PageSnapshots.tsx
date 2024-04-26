@@ -20,7 +20,6 @@ export const PageSnapshots = () => {
   return (
     <div>
       <PageSnapshotList
-        projectId={project.id}
         userId={project.userId}
         pageSnapshots={project.pageSnapShot}
       />

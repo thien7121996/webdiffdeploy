@@ -1,6 +1,5 @@
 import { Layout } from '@/components/layout';
 import ScrollUp from '@/components/pages/Common/ScrollUp';
-import Hero from '@/components/pages/Hero';
 import { useAuthenticated } from '@/hooks/auth.hook';
 import { parseCookieString } from '@/utils/cookie/getCookies';
 import { GetServerSideProps, Metadata } from 'next';
@@ -28,7 +27,6 @@ export default function Home() {
   return (
     <>
       <ScrollUp />
-      <Hero />
     </>
   );
 }

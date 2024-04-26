@@ -64,9 +64,13 @@ export const PageSnapshot: FC<Props> = ({
                     <li>
                       <button
                         onClick={() => handleDeletePageSnapShot(pageSnap.id)}
-                        className='block flex w-full items-center justify-center px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
+                        className='block w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white'
                       >
-                        {isPending && <Loader width='5' height='5' />}
+                        {isPending && (
+                          <span>
+                            <Loader />
+                          </span>
+                        )}
                         Delete
                       </button>
                     </li>

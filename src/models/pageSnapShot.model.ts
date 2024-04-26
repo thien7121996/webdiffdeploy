@@ -9,3 +9,9 @@ export type PageSnapShotType = {
   isPagePrivate?: boolean;
   screenshotStatus?: SCREENSHOT_STATUS_TYPE;
 };
+
+export type DisplayImageDiffType = {
+  diff: string;
+  match: string;
+  imageUrl: string;
+};

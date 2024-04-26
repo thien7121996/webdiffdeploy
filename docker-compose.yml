@@ -3,7 +3,7 @@ services:
   web:
     build: .
     ports:
-      - "4001:4001"
+      - "3001:3001"
     volumes:
       - .:/app
       - /app/node_modules

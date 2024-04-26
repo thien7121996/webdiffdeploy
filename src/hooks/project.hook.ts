@@ -20,7 +20,7 @@ export const useProject = () => {
     try {
       setLoading(true);
       const listProject = await getProject(uuid);
-      setProjectList(listProject.data);
+      setProjectList(listProject.data as ProjectType[]);
     } catch (e) {
       handleError(e);
     } finally {

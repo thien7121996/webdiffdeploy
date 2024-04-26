@@ -71,7 +71,7 @@ const SignUpPage = () => {
         <div className='container'>
           <div className='-mx-4 flex flex-wrap'>
             <div className='w-full px-4'>
-              <div className='mx-auto max-w-[500px] rounded rounded-3xl bg-white px-6 py-10 shadow-md dark:bg-dark sm:p-[60px]'>
+              <div className='mx-auto max-w-[500px] rounded-3xl bg-white px-6 py-10 shadow-md dark:bg-dark sm:p-[60px]'>
                 <h3 className='mb-3 text-center text-2xl font-bold text-black dark:text-white sm:text-3xl'>
                   Create your account
                 </h3>

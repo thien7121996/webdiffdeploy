@@ -10,9 +10,11 @@ export const ScreenshotButton: FC<Props> = ({ pageSnapshotId }) => {
   return (
     <button
       onClick={() => handleUpdateScreenshot(pageSnapshotId)}
-      className='rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700'
+      className='flex gap-5 rounded-2xl bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700'
     >
-      {isScreenshotPending && <Loader />}
+      {isScreenshotPending && (
+        <Loader borderColor='-white' width='5' height='5' />
+      )}
       Screenshot
     </button>
   );

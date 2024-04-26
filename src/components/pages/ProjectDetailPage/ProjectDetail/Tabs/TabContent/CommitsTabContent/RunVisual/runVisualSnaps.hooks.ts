@@ -4,11 +4,9 @@ import {
   runVisualSnapshots,
 } from '@/services/runVisualSnapshot';
 import { useMutation } from '@tanstack/react-query';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
 export const useVisualSnaps = (projectId: string) => {
-  const [startRun, setStartRun] = useState(false);
-
   const run = useCallback(
     async (projectId?: string, visualCheckId?: string) => {
       if (!projectId || !visualCheckId) {
@@ -45,7 +43,7 @@ export const useVisualSnaps = (projectId: string) => {
         }
 
         const response = await createVisualSnapshotDocs({ projectId });
-        setStartRun(false);
+
         runVisualSnap({
           projectId,
           visualCheckId: response.data.visualCheckId,
@@ -72,7 +70,5 @@ export const useVisualSnaps = (projectId: string) => {
     isError,
     isPending,
     createCommitDocs,
-    startRun,
-    setStartRun,
   };
 };

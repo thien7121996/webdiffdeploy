@@ -1,6 +1,7 @@
 import Loader from '@/components/admin/common/Loader';
 import { ApproveCommitPageSnapRequest } from '@/models/ApproveCommitPageSnap';
 import { CommitPageSnapshotType } from '@/models/GetCommitsType';
+import { DisplayImageDiffType } from '@/models/pageSnapShot.model';
 import dayjs from 'dayjs';
 import { FC } from 'react';
 
@@ -11,6 +12,8 @@ type Props = {
   urlShorting: string | null;
   commitPageSnapshot: CommitPageSnapshotType;
   onApprove: (payload: Omit<ApproveCommitPageSnapRequest, 'projectId'>) => void;
+  toggleActiveModal?: () => void;
+  setImageView?: React.Dispatch<React.SetStateAction<DisplayImageDiffType>>;
 };
 
 export const ItemCommit: FC<Props> = ({
@@ -20,11 +23,13 @@ export const ItemCommit: FC<Props> = ({
   onApprove,
   commitId,
   isAdmin,
+  toggleActiveModal,
+  setImageView,
 }) => {
   return (
-    <div className='border-blue-gray-50 text-blue-gray-500 font-normalfocus:outline-none relative flex justify-between gap-5 whitespace-normal break-words border bg-white p-4 font-sans text-sm'>
+    <div className='border-blue-gray-50 text-blue-gray-500 relative flex justify-between gap-5 whitespace-normal break-words border bg-white p-4 font-sans text-sm font-normal focus:outline-none'>
       <div className=''>
-        <div className='mb-2 flex items-center gap-3 text-gray-800'>
+        <div className='mb-2 flex gap-3 text-gray-800'>
           <strong>Page Snapshot ID:</strong> {commitPageSnapshot.id}
           <div className='center relative inline-block select-none whitespace-nowrap rounded-full align-baseline font-sans text-xs font-medium capitalize leading-none tracking-wide text-white'>
             <div className='mt-px'>
@@ -43,7 +48,8 @@ export const ItemCommit: FC<Props> = ({
               </svg>
             </div>
           </div>
-          <strong>URL:</strong> {commitPageSnapshot.url}
+          <strong>URL:</strong>
+          <span className='max-w-125'>{commitPageSnapshot.url}</span>
           <div className='center relative inline-block select-none whitespace-nowrap rounded-full align-baseline font-sans text-xs font-medium capitalize leading-none tracking-wide text-white'>
             <div className='mt-px'>
               <svg
@@ -65,7 +71,7 @@ export const ItemCommit: FC<Props> = ({
 
         {commitPageSnapshot.path && (
           <div className='mb-2 block'>
-            <strong>Path screenshot:</strong>
+            <strong className='pr-2'>Path screenshot:</strong>
             <a
               href={commitPageSnapshot.diffImage}
               target='_blank'
@@ -73,6 +79,37 @@ export const ItemCommit: FC<Props> = ({
             >
               Download Image
             </a>
+            {setImageView && toggleActiveModal && (
+              <button
+                onClick={() => {
+                  setImageView({
+                    diff: commitPageSnapshot.diff + '%',
+                    match: commitPageSnapshot.match + '%',
+                    imageUrl: commitPageSnapshot.diffImage,
+                  });
+                  toggleActiveModal();
+                }}
+                className='ml-5 rounded-full  bg-blue-400 px-2 py-2 text-small font-bold text-white hover:bg-blue-700'
+              >
+                <svg
+                  className='text-red-500 h-4 w-4'
+                  width='24'
+                  height='24'
+                  viewBox='0 0 24 24'
+                  stroke-width='2'
+                  stroke='currentColor'
+                  fill='none'
+                  stroke-linecap='round'
+                  stroke-linejoin='round'
+                >
+                  {' '}
+                  <path stroke='none' d='M0 0h24v24H0z' />{' '}
+                  <circle cx='12' cy='12' r='2' />{' '}
+                  <path d='M2 12l1.5 2a11 11 0 0 0 17 0l1.5 -2' />{' '}
+                  <path d='M2 12l1.5 -2a11 11 0 0 1 17 0l1.5 2' />
+                </svg>
+              </button>
+            )}
           </div>
         )}
         <p className='flex gap-5 font-sans text-sm font-normal leading-normal text-gray-700 antialiased'>
@@ -112,7 +149,7 @@ export const ItemCommit: FC<Props> = ({
         </div>
       </div>
 
-      <div className='flex flex-col items-center justify-center gap-3'>
+      <div className='flex min-w-22 flex-col items-center justify-center gap-3'>
         <div>
           {urlShorting === commitPageSnapshot.url && (
             <p className='flex items-center gap-5 align-bottom text-xl font-bold'>
@@ -139,7 +176,7 @@ export const ItemCommit: FC<Props> = ({
             </p>
           )}
         </div>
-        {!isAdmin && commitPageSnapshot.path && (
+        {!isAdmin && (
           <button
             className='rounded-full bg-blue-500 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700 focus:outline-none'
             onClick={() =>

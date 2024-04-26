@@ -8,7 +8,7 @@ export type PageSnapShotType = {
 };
 
 export type ProjectType = {
-  id?: string;
+  id: string;
   userId: string;
   name: string;
   hasPageLogin?: boolean;

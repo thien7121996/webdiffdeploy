@@ -1,6 +1,5 @@
 import db from '@/configs/firebase';
-import { getDateCurrent } from '@/utils/getDateCurrent';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 type ResponseData = {
@@ -8,8 +7,6 @@ type ResponseData = {
   message: string;
   id?: string;
 };
-const nameCollection = 'projects';
-const projectsCollectionRef = collection(db, nameCollection);
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,41 +17,34 @@ export default async function handler(
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  const {
-    userId,
-    name,
-    hasPageLogin,
-    urlLogin,
-    userNameLogin,
-    passwordLogin,
-    hasBasicAuth,
-    userNameBasicAuth,
-    passwordBasicAuth,
-  } = req.body;
-  // Check if userId or name is not present or is empty
+  const { name } = req.body;
+  const { uuid: userId } = req.cookies;
+
   if (!userId && !name) {
     res.status(400).json({ message: 'Missing or empty userId or name' });
-    return; // Stop execution after sending the error response
+    return;
   }
 
   try {
-    const project = {
+    const newProject = {
       userId,
       name,
-      hasPageLogin,
-      urlLogin,
-      userNameLogin,
-      passwordLogin,
-      hasBasicAuth,
-      userNameBasicAuth,
-      passwordBasicAuth,
-      createdAt: getDateCurrent(),
+      createdAt: new Date().toISOString(),
     };
-    const projectRef = await addDoc(projectsCollectionRef, project);
+
+    const projectsRef = collection(db, '/projects');
+
+    const { id } = await addDoc(projectsRef, newProject);
+
+    const projectRef = doc(db, `/projects/${id}`);
+
+    const projectSnap = await getDoc(projectRef);
+
+    const project = { ...projectSnap.data(), id: projectSnap.id };
+
     res.status(200).json({
       message: 'Create project success',
-      data: projectRef,
-      id: projectRef.id,
+      data: project,
     });
   } catch (e) {
     res.status(200).json({ message: 'Something went wrong' });

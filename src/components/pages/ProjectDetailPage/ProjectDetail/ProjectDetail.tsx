@@ -4,7 +4,6 @@ import { Tabs } from './Tabs';
 import { RunVisual } from './Tabs/TabContent/CommitsTabContent/RunVisual';
 import { useCommits } from './Tabs/TabContent/CommitsTabContent/commits.hooks';
 import { useProjectDetailSocket } from './useProjectDetailSocket.hooks';
-
 type Props = {
   setNewPageModalOpen: () => void;
   infoProjectDetailName?: string;
@@ -28,7 +27,7 @@ export const ProjectDetail: FC<Props> = ({
           </h3>
         </div>
 
-        <div className='flex justify-end text-right'>
+        <div className='text-right'>
           <RunVisual />
           <button
             onClick={setNewPageModalOpen}

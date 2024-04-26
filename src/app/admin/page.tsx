@@ -10,6 +10,7 @@ export default async function Home() {
     redirect('/signin');
   } else {
     const isAdmin = await handleCheckRole(accessToken.value);
+
     if (!isAdmin) {
       redirect('/projects');
     }

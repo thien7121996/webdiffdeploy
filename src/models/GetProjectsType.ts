@@ -1,4 +1,4 @@
-import { ProjectType } from './project.model';
+import { ProjectType } from './GetProjectType';
 
 export type GetProjectsResponseType = {
   message: string;

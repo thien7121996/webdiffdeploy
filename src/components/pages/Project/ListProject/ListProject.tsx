@@ -58,7 +58,7 @@ export const ListProject: FC<Props> = ({ listProjectData }) => {
   return (
     <div>
       <div className='mb-8 flex items-center justify-between'>
-        <BlockProjectAdd setReloadData={setReloadData} />
+        <BlockProjectAdd />
       </div>
       <div className='-mx-4 flex flex-wrap justify-start'>
         {listProjects?.map((project) => (

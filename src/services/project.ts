@@ -1,15 +1,15 @@
+import { AddNewProjectRequest } from '@/models/AddNewProjectType';
 import { GetProjectResponseType } from '@/models/GetProjectType';
-import { ProjectType } from '@/models/project.model';
+import { GetProjectsResponseType } from '@/models/GetProjectsType';
 import { httpClient } from '@/utils/httpClient';
-/**
- * Login
- * @param data
- */
-export const addProject = (data: ProjectType): Promise<any> => {
-  return httpClient.post(`/project/create`, data);
+
+export const addProject = (request: AddNewProjectRequest): Promise<any> => {
+  return httpClient.post(`/project/create`, request);
 };
 
-export const getProject = (userId: string): Promise<any> => {
+export const getProject = (
+  userId: string
+): Promise<GetProjectsResponseType> => {
   return httpClient.get(`/project/get?userid=${userId}`);
 };
 

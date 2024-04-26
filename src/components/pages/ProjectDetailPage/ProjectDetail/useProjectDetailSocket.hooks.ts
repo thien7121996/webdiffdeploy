@@ -1,11 +1,9 @@
-import db from '@/configs/firebase';
 import { useNotification } from '@/hooks/useNotification';
 import { useSocket } from '@/hooks/useSocket';
 import { useUpdateDataQuery } from '@/hooks/useUpdateDataQuery';
 import { CommitPageSnapshotType, CommitType } from '@/models/GetCommitsType';
 import { ProjectType } from '@/models/GetProjectType';
 import { SCREENSHOT_STATUS_TYPE } from '@/types';
-import { doc, updateDoc } from 'firebase/firestore';
 import { keyBy } from 'lodash';
 import { useParams } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
@@ -101,11 +99,6 @@ export const useProjectDetailSocket = () => {
           newCommitsObject[visualCheckId] = newCommit;
           return Object.values(newCommitsObject);
         });
-        updateDataQuery([projectId], (prev: ProjectType) => {
-          const newProject = { ...prev };
-          newProject.statusRun = 1;
-          return newProject;
-        });
       }
     );
   }, [projectId, socket, updateDataQuery]);
@@ -117,23 +110,13 @@ export const useProjectDetailSocket = () => {
 
     socket.on(
       `projectId-${projectId}-run-visual-done`,
-      async ({ visualCheckId }: { visualCheckId: string }) => {
-        const project = { statusRun: null }; // running, null
-        const projectDoc = doc(db, 'projects', projectId);
-        updateDoc(projectDoc, {
-          ...project,
-        });
+      ({ visualCheckId }: { visualCheckId: string }) => {
         updateDataQuery([projectId, 'commits'], (prev: CommitType[]) => {
           const newCommits = [...prev];
           const newCommitsObject = keyBy(newCommits, 'id');
           newCommitsObject[visualCheckId].success++;
           newCommitsObject[visualCheckId].screenshotingUrl = null;
           return Object.values(newCommitsObject);
-        });
-        updateDataQuery([projectId], (prev: ProjectType) => {
-          const newProject = { ...prev };
-          newProject.statusRun = null;
-          return newProject;
         });
       }
     );

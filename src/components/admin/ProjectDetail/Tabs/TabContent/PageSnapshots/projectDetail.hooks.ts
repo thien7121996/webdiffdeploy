@@ -36,12 +36,11 @@ export const useProjectDetail = () => {
     isLoading,
     data: project,
   } = useQuery({
-    queryKey: ['project', projectId],
+    queryKey: ['projects', projectId],
     queryFn: handleGetProjectDetail,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     enabled: !!projectId,
-    staleTime: 10000,
   });
 
   return { isError, isLoading, project };

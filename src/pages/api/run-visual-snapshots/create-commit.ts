@@ -1,8 +1,6 @@
 import config from '@/configs/env';
-import db from '@/configs/firebase';
 import { CreateCommitDocsResponse } from '@/models/CreateCommitDocsType';
 import axios from 'axios';
-import { doc, updateDoc } from 'firebase/firestore';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
@@ -23,11 +21,6 @@ export default async function handler(
   }
 
   try {
-    const project = { statusRun: 1 }; // cancel, running, done
-    const projectDoc = doc(db, 'projects', projectId);
-    updateDoc(projectDoc, {
-      ...project,
-    });
     const responseUrlList = await axios.post(
       `${config.queueServer.origin}/run-visual-snapshots/create-visual-page-snapshot`,
       {

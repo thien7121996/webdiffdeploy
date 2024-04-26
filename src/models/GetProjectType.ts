@@ -23,5 +23,4 @@ export type ProjectType = {
   passwordBasicAuth?: string;
   userNameBasicAuth?: string;
   pageSnapShot: PageSnapShotType[];
-  statusRun?: number | null;
 };

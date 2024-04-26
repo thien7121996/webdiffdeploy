@@ -4,7 +4,6 @@ import { PageSnapShotType } from '@/models/pageSnapShot.model';
 import { find } from 'lodash';
 import { useParams } from 'next/navigation';
 import { FC, useCallback, useState } from 'react';
-import { VisualSnapshotsModel } from './VisualSnapshotsModel';
 
 type Props = { pageSnapshots: Omit<PageSnapShotType, 'pageVisualSnapShot'>[] };
 
@@ -45,11 +44,6 @@ export const PageSnapshotList: FC<Props> = ({ pageSnapshots }) => {
 
   return (
     <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
-      <VisualSnapshotsModel
-        selectedPageSnapshot={selectedPageSnapshot}
-        onClose={handleCloseVisualsModal}
-        isOpen={isVisualsModelOpen}
-      />
       <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right'>
         <thead className='bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400'>
           <tr>
