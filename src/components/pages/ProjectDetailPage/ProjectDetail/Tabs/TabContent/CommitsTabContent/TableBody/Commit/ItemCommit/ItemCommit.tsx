@@ -79,37 +79,39 @@ export const ItemCommit: FC<Props> = ({
             >
               Download Image
             </a>
-            {setImageView && toggleActiveModal && (
-              <button
-                onClick={() => {
+            <button
+              onClick={() => {
+                if (setImageView && toggleActiveModal) {
                   setImageView({
                     diff: commitPageSnapshot.diff + '%',
                     match: commitPageSnapshot.match + '%',
                     imageUrl: commitPageSnapshot.diffImage,
+                    imageTest: commitPageSnapshot.path,
+                    imageReference: commitPageSnapshot.currentBasePath,
                   });
                   toggleActiveModal();
-                }}
-                className='ml-5 rounded-full  bg-blue-400 px-2 py-2 text-small font-bold text-white hover:bg-blue-700'
+                }
+              }}
+              className='ml-5 rounded-full  bg-blue-400 px-2 py-2 text-small font-bold text-white hover:bg-blue-700'
+            >
+              <svg
+                className='text-red-500 h-4 w-4'
+                width='24'
+                height='24'
+                viewBox='0 0 24 24'
+                stroke-width='2'
+                stroke='currentColor'
+                fill='none'
+                stroke-linecap='round'
+                stroke-linejoin='round'
               >
-                <svg
-                  className='text-red-500 h-4 w-4'
-                  width='24'
-                  height='24'
-                  viewBox='0 0 24 24'
-                  stroke-width='2'
-                  stroke='currentColor'
-                  fill='none'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                >
-                  {' '}
-                  <path stroke='none' d='M0 0h24v24H0z' />{' '}
-                  <circle cx='12' cy='12' r='2' />{' '}
-                  <path d='M2 12l1.5 2a11 11 0 0 0 17 0l1.5 -2' />{' '}
-                  <path d='M2 12l1.5 -2a11 11 0 0 1 17 0l1.5 2' />
-                </svg>
-              </button>
-            )}
+                {' '}
+                <path stroke='none' d='M0 0h24v24H0z' />{' '}
+                <circle cx='12' cy='12' r='2' />{' '}
+                <path d='M2 12l1.5 2a11 11 0 0 0 17 0l1.5 -2' />{' '}
+                <path d='M2 12l1.5 -2a11 11 0 0 1 17 0l1.5 2' />
+              </svg>
+            </button>
           </div>
         )}
         <p className='flex gap-5 font-sans text-sm font-normal leading-normal text-gray-700 antialiased'>
@@ -176,7 +178,7 @@ export const ItemCommit: FC<Props> = ({
             </p>
           )}
         </div>
-        {!isAdmin && (
+        {commitPageSnapshot.diffImage && (
           <button
             className='rounded-full bg-blue-500 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700 focus:outline-none'
             onClick={() =>

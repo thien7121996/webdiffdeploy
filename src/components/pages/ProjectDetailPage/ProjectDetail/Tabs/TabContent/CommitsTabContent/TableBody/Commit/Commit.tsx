@@ -1,11 +1,13 @@
 import Loader from '@/components/admin/common/Loader';
 import { useCommit } from '@/components/pages/ProjectDetailPage/ProjectDetail/Tabs/TabContent/CommitsTabContent/TableBody/useCommit.hooks';
 import { useBooleanState } from '@/hooks/useBooleanState';
+import { useRevalidate } from '@/hooks/useRevalidate';
 import { ApproveCommitPageSnapRequest } from '@/models/ApproveCommitPageSnap';
 import { CommitType } from '@/models/GetCommitsType';
 import { DisplayImageDiffType } from '@/models/pageSnapShot.model';
 import { countTimeRun } from '@/utils/countTimeRun';
 import dayjs from 'dayjs';
+import { useParams } from 'next/navigation';
 import { FC, memo, useEffect, useState } from 'react';
 import { ItemCommit } from './ItemCommit';
 
@@ -29,10 +31,11 @@ export const Commit: FC<Props> = memo(
   }) => {
     const { boolean: isOpen, toggle } = useBooleanState(false);
     const pageSnapshots = commit.pageSnapshots;
-
+    const params = useParams();
     const [startTime, setStartTime] = useState<Date>();
     const [elapsedTime, setElapsedTime] = useState(0);
     const [isProcessing, setIsProcessing] = useState(false);
+    const projectId = params?.projectId as string;
 
     const { handleDeleteCommit, cancelJobVisual } = useCommit();
 
@@ -41,9 +44,14 @@ export const Commit: FC<Props> = memo(
         setStartTime(new Date(commit.createdAt));
       }
     }, [commit?.createdAt]);
+    const revalidate = useRevalidate();
+
     const handleCancelJobVisual = async (visualCheckId: string) => {
+      setIsProcessing(true);
       try {
         await cancelJobVisual(visualCheckId);
+        setIsProcessing(false);
+        revalidate([projectId, 'commits']);
       } catch (error) {
         // do nothing
       }
@@ -170,13 +178,17 @@ export const Commit: FC<Props> = memo(
                 className='ml-5 flex h-10 w-10 items-center justify-center rounded-full bg-purple-400 align-middle text-small font-bold text-white hover:bg-blue-700'
                 onClick={() => handleCancelJobVisual(commit.id)}
               >
-                <svg
-                  className='h-[20px] w-[20px] fill-[#fff]'
-                  viewBox='0 0 512 512'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path d='M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm192-96H320c17.7 0 32 14.3 32 32V320c0 17.7-14.3 32-32 32H192c-17.7 0-32-14.3-32-32V192c0-17.7 14.3-32 32-32z'></path>
-                </svg>
+                {isProcessing ? (
+                  <Loader height='6' width='6' />
+                ) : (
+                  <svg
+                    className='h-[20px] w-[20px] fill-[#fff]'
+                    viewBox='0 0 512 512'
+                    xmlns='http://www.w3.org/2000/svg'
+                  >
+                    <path d='M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm192-96H320c17.7 0 32 14.3 32 32V320c0 17.7-14.3 32-32 32H192c-17.7 0-32-14.3-32-32V192c0-17.7 14.3-32 32-32z'></path>
+                  </svg>
+                )}
               </button>
             )}
           </td>

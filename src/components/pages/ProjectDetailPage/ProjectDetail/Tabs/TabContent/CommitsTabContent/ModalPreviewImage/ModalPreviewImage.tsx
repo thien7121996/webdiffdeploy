@@ -1,8 +1,7 @@
 import { Modal } from '@/components/ui/Modal/Modal';
-import { useBooleanState } from '@/hooks/useBooleanState';
-import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react';
-import Image from 'next/image';
 import { DisplayImageDiffType } from '@/models/pageSnapShot.model';
+import Image from 'next/image';
+import { FC, useEffect, useState } from 'react';
 
 type Props = {
   activeModal: boolean;
@@ -31,7 +30,7 @@ export const ModalPreviewImage: FC<Props> = ({
         onClose={setCloseModal}
         $isModalNotAlignCenter
         $isAllowClickOutsideToClose={true}
-        widthModal='600px'
+        widthModal='1200px'
       >
         <div
           className='shadow-three mb-12 rounded-3xl bg-white px-8 py-11 shadow-2xl sm:p-[25px] lg:mb-0 lg:px-8 xl:p-[25px]'
@@ -45,18 +44,70 @@ export const ModalPreviewImage: FC<Props> = ({
             <strong>Diff: </strong>
             {imageView.diff} <strong>Match:</strong> {imageView.match}
           </p>
-          <div
-            className='-mx-4 flex h-[500px] flex-wrap overflow-scroll'
-            style={{
-              border: '1px solid #f0f0f0',
-              borderRadius: '10px',
-              background: '#f0f0f0',
-              margin: '0px 20px',
-            }}
-          >
-            {urlImage && (
-              <Image alt='' src={imageView.imageUrl} width='500' height='500' />
-            )}
+          <div className='grid grid-cols-3 gap-4'>
+            <div className='bg-gray-200 p-4'>
+              <label
+                style={{
+                  fontWeight: 'bold',
+                  marginBottom: '10px',
+                  display: 'block',
+                  textAlign: 'left',
+                  color: '#1d4ed8',
+                }}
+              >
+                Reference
+              </label>
+              {urlImage && (
+                <Image
+                  alt=''
+                  src={imageView.imageReference}
+                  width='500'
+                  height='500'
+                />
+              )}
+            </div>
+            <div className='bg-gray-200 p-4'>
+              <label
+                style={{
+                  fontWeight: 'bold',
+                  marginBottom: '10px',
+                  display: 'block',
+                  textAlign: 'left',
+                  color: '#1d4ed8',
+                }}
+              >
+                Test
+              </label>
+              {urlImage && (
+                <Image
+                  alt=''
+                  src={imageView.imageTest}
+                  width='500'
+                  height='500'
+                />
+              )}
+            </div>
+            <div className='bg-gray-200 p-4'>
+              <label
+                style={{
+                  fontWeight: 'bold',
+                  marginBottom: '10px',
+                  display: 'block',
+                  textAlign: 'left',
+                  color: '#1d4ed8',
+                }}
+              >
+                Diff
+              </label>
+              {urlImage && (
+                <Image
+                  alt=''
+                  src={imageView.imageUrl}
+                  width='500'
+                  height='500'
+                />
+              )}
+            </div>
           </div>
         </div>
       </Modal>

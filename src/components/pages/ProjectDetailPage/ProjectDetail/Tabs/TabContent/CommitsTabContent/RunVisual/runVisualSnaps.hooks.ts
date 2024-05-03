@@ -55,7 +55,7 @@ export const useVisualSnaps = (projectId: string) => {
     [runVisualSnap]
   );
 
-  const { mutate: createCommitDocs } = useMutation({
+  const { mutate: createCommitDocs, isPending: isRunning } = useMutation({
     mutationFn: () => createDocs(projectId),
     onError: (error) => {
       // eslint-disable-next-line no-console
@@ -69,6 +69,7 @@ export const useVisualSnaps = (projectId: string) => {
   return {
     isError,
     isPending,
+    isRunning,
     createCommitDocs,
   };
 };

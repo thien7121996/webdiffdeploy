@@ -14,4 +14,6 @@ export type DisplayImageDiffType = {
   diff: string;
   match: string;
   imageUrl: string;
+  imageTest: string;
+  imageReference: string;
 };

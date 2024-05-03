@@ -4,13 +4,14 @@ import { TableBody } from '@/components/pages/ProjectDetailPage/ProjectDetail/Ta
 import { TableHead } from '@/components/pages/ProjectDetailPage/ProjectDetail/Tabs/TabContent/CommitsTabContent/TableHead';
 import { useCommits } from '@/components/pages/ProjectDetailPage/ProjectDetail/Tabs/TabContent/CommitsTabContent/commits.hooks';
 import { useParams, usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 export const Commits = () => {
   const params = useParams();
   const projectId = params?.projectId as string;
   const pathname = usePathname();
   const isAdmin = !!pathname?.includes('/admin');
-
+  const [reloadCommit, setReloadCommit] = useState<boolean>(false);
   const { commits, isError, isLoading } = useCommits(projectId);
 
   if (isLoading) {
